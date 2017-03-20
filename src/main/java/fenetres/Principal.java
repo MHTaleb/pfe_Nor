@@ -24,7 +24,6 @@ import static org.bytedeco.javacpp.opencv_imgproc.cvAdaptiveThreshold;
 import static org.bytedeco.javacpp.opencv_imgproc.cvCanny;
 import static org.bytedeco.javacpp.opencv_imgproc.cvCvtColor;
 import static org.bytedeco.javacpp.opencv_imgproc.cvSmooth;
-
 /**
  *
  * @author Taleb
@@ -79,7 +78,7 @@ public class Principal extends javax.swing.JFrame {
         jScrollPane4 = new javax.swing.JScrollPane();
         jLabelSmooth = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jLabel9 = new javax.swing.JLabel();
+        jLabelrectengle = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Détection de matricule");
@@ -285,7 +284,9 @@ public class Principal extends javax.swing.JFrame {
         jScrollPane2.setName("jScrollPane2"); // NOI18N
 
         jLabelSelectedImage.setBackground(new java.awt.Color(139, 191, 159));
+        jLabelSelectedImage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelSelectedImage.setAutoscrolls(true);
+        jLabelSelectedImage.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jLabelSelectedImage.setName("jLabelSelectedImage"); // NOI18N
         jLabelSelectedImage.setOpaque(true);
         jScrollPane2.setViewportView(jLabelSelectedImage);
@@ -297,7 +298,9 @@ public class Principal extends javax.swing.JFrame {
         jScrollPane5.setOpaque(false);
 
         jLabelLineImage.setBackground(new java.awt.Color(139, 191, 159));
+        jLabelLineImage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelLineImage.setAutoscrolls(true);
+        jLabelLineImage.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jLabelLineImage.setName("jLabelLineImage"); // NOI18N
         jLabelLineImage.setOpaque(true);
         jScrollPane5.setViewportView(jLabelLineImage);
@@ -308,6 +311,7 @@ public class Principal extends javax.swing.JFrame {
         jScrollPane4.setName("jScrollPane4"); // NOI18N
 
         jLabelSmooth.setBackground(new java.awt.Color(139, 191, 159));
+        jLabelSmooth.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelSmooth.setAutoscrolls(true);
         jLabelSmooth.setName("jLabelSmooth"); // NOI18N
         jLabelSmooth.setOpaque(true);
@@ -318,11 +322,12 @@ public class Principal extends javax.swing.JFrame {
         jScrollPane3.setAutoscrolls(true);
         jScrollPane3.setName("jScrollPane3"); // NOI18N
 
-        jLabel9.setBackground(new java.awt.Color(139, 191, 159));
-        jLabel9.setAutoscrolls(true);
-        jLabel9.setName("jLabel9"); // NOI18N
-        jLabel9.setOpaque(true);
-        jScrollPane3.setViewportView(jLabel9);
+        jLabelrectengle.setBackground(new java.awt.Color(139, 191, 159));
+        jLabelrectengle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabelrectengle.setAutoscrolls(true);
+        jLabelrectengle.setName("jLabelrectengle"); // NOI18N
+        jLabelrectengle.setOpaque(true);
+        jScrollPane3.setViewportView(jLabelrectengle);
 
         jPanel4.add(jScrollPane3);
 
@@ -371,6 +376,7 @@ public class Principal extends javax.swing.JFrame {
     private IplImage originalImage;
     private IplImage blackAndWhiteImage;
     private IplImage lineImageImage;
+    String blackAndWhite = "test_2.jpg";
     private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
         // TODO add your handling code here:
         JFileChooser chooser = new JFileChooser();
@@ -383,7 +389,6 @@ public class Principal extends javax.swing.JFrame {
         cvSaveImage(smoothed, originalImage);
         cvCvtColor(originalImage, blackAndWhiteImage, CV_BGR2GRAY);
         cvAdaptiveThreshold(blackAndWhiteImage, blackAndWhiteImage, 255, CV_ADAPTIVE_THRESH_GAUSSIAN_C, CV_THRESH_BINARY_INV, 7, 7);
-        String blackAndWhite = "test_2.jpg";
         cvSaveImage(blackAndWhite, blackAndWhiteImage);
         jLabelSelectedImage.setIcon(new ImageIcon(smoothed));
         jLabelSmooth.setIcon(new ImageIcon(blackAndWhite));
@@ -408,9 +413,13 @@ public class Principal extends javax.swing.JFrame {
         jLabelLineImage.setIcon(new ImageIcon(imagelines));
     }//GEN-LAST:event_jLabel2MouseClicked
 
+    
+    
+   
     private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
         // TODO add your handling code here:
-
+        
+  
     }//GEN-LAST:event_jLabel3MouseClicked
 
     private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
@@ -429,10 +438,10 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel jLabelLineImage;
     private javax.swing.JLabel jLabelSelectedImage;
     private javax.swing.JLabel jLabelSmooth;
+    private javax.swing.JLabel jLabelrectengle;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

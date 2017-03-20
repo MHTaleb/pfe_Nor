@@ -437,7 +437,9 @@
                         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                           <Color blue="9f" green="bf" red="8b" type="rgb"/>
                         </Property>
+                        <Property name="horizontalAlignment" type="int" value="0"/>
                         <Property name="autoscrolls" type="boolean" value="true"/>
+                        <Property name="horizontalTextPosition" type="int" value="0"/>
                         <Property name="name" type="java.lang.String" value="jLabelSelectedImage" noResource="true"/>
                         <Property name="opaque" type="boolean" value="true"/>
                       </Properties>
@@ -458,7 +460,9 @@
                         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                           <Color blue="9f" green="bf" red="8b" type="rgb"/>
                         </Property>
+                        <Property name="horizontalAlignment" type="int" value="0"/>
                         <Property name="autoscrolls" type="boolean" value="true"/>
+                        <Property name="horizontalTextPosition" type="int" value="0"/>
                         <Property name="name" type="java.lang.String" value="jLabelLineImage" noResource="true"/>
                         <Property name="opaque" type="boolean" value="true"/>
                       </Properties>
@@ -478,6 +482,7 @@
                         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                           <Color blue="9f" green="bf" red="8b" type="rgb"/>
                         </Property>
+                        <Property name="horizontalAlignment" type="int" value="0"/>
                         <Property name="autoscrolls" type="boolean" value="true"/>
                         <Property name="name" type="java.lang.String" value="jLabelSmooth" noResource="true"/>
                         <Property name="opaque" type="boolean" value="true"/>
@@ -493,13 +498,14 @@
 
                   <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                   <SubComponents>
-                    <Component class="javax.swing.JLabel" name="jLabel9">
+                    <Component class="javax.swing.JLabel" name="jLabelrectengle">
                       <Properties>
                         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                           <Color blue="9f" green="bf" red="8b" type="rgb"/>
                         </Property>
+                        <Property name="horizontalAlignment" type="int" value="0"/>
                         <Property name="autoscrolls" type="boolean" value="true"/>
-                        <Property name="name" type="java.lang.String" value="jLabel9" noResource="true"/>
+                        <Property name="name" type="java.lang.String" value="jLabelrectengle" noResource="true"/>
                         <Property name="opaque" type="boolean" value="true"/>
                       </Properties>
                     </Component>
