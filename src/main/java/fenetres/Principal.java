@@ -6,16 +6,36 @@
 package fenetres;
 
 import java.awt.HeadlessException;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
+import org.bytedeco.javacpp.opencv_core.CvMemStorage;
+import org.bytedeco.javacpp.opencv_core.CvSeq;
+import static org.bytedeco.javacpp.opencv_core.IPL_DEPTH_8U;
+import org.bytedeco.javacpp.opencv_core.IplImage;
+import static org.bytedeco.javacpp.opencv_core.cvCreateImage;
+import static org.bytedeco.javacpp.opencv_core.cvCreateMemStorage;
+import static org.bytedeco.javacpp.opencv_core.cvGetSize;
+import static org.bytedeco.javacpp.opencv_imgcodecs.cvLoadImage;
+import static org.bytedeco.javacpp.opencv_imgcodecs.cvSaveImage;
+import static org.bytedeco.javacpp.opencv_imgproc.CV_ADAPTIVE_THRESH_GAUSSIAN_C;
+import static org.bytedeco.javacpp.opencv_imgproc.CV_BGR2GRAY;
+import static org.bytedeco.javacpp.opencv_imgproc.CV_THRESH_BINARY_INV;
+import static org.bytedeco.javacpp.opencv_imgproc.cvAdaptiveThreshold;
+import static org.bytedeco.javacpp.opencv_imgproc.cvCanny;
+import static org.bytedeco.javacpp.opencv_imgproc.cvCvtColor;
+import static org.bytedeco.javacpp.opencv_imgproc.cvSmooth;
 
 /**
  *
  * @author Taleb
  */
-public class Principal extends javax.swing.JFrame{
+public class Principal extends javax.swing.JFrame {
 
     Design design;
+
     /**
      * Creates new form Principal
+     *
      * @param design
      */
     public Principal(Design design) throws HeadlessException {
@@ -24,7 +44,6 @@ public class Principal extends javax.swing.JFrame{
         design.doDesign(this);
         initComponents();
     }
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -49,17 +68,28 @@ public class Principal extends javax.swing.JFrame{
         jSeparator5 = new javax.swing.JSeparator();
         jLabel6 = new javax.swing.JLabel();
         jSeparator6 = new javax.swing.JSeparator();
-        jPanel4 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jPanel4 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jLabelSelectedImage = new javax.swing.JLabel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        jLabelLineImage = new javax.swing.JLabel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jLabelSmooth = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jLabel9 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Détection de matricule");
+        setBackground(new java.awt.Color(89, 52, 79));
         setName("Form"); // NOI18N
 
         jPanel1.setName("jPanel1"); // NOI18N
 
-        jPanel3.setBackground(new java.awt.Color(65, 51, 122));
-        jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(217, 221, 224), 2));
+        jPanel3.setBackground(new java.awt.Color(214, 186, 115));
+        jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(89, 52, 79), 2));
         jPanel3.setName("jPanel3"); // NOI18N
         jPanel3.setPreferredSize(new java.awt.Dimension(1024, 30));
 
@@ -69,6 +99,11 @@ public class Principal extends javax.swing.JFrame{
         jLabel1.setToolTipText("Ajouter Image");
         jLabel1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabel1.setName("jLabel1"); // NOI18N
+        jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel1MouseClicked(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 48)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(217, 221, 224));
@@ -76,6 +111,11 @@ public class Principal extends javax.swing.JFrame{
         jLabel2.setToolTipText("Correction de bruit");
         jLabel2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabel2.setName("jLabel2"); // NOI18N
+        jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel2MouseClicked(evt);
+            }
+        });
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 48)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(217, 221, 224));
@@ -83,6 +123,11 @@ public class Principal extends javax.swing.JFrame{
         jLabel3.setToolTipText("Transformer en Matrice");
         jLabel3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabel3.setName("jLabel3"); // NOI18N
+        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel3MouseClicked(evt);
+            }
+        });
 
         jSeparator1.setBackground(new java.awt.Color(217, 221, 224));
         jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
@@ -106,6 +151,11 @@ public class Principal extends javax.swing.JFrame{
         jLabel4.setToolTipText("Segmentation & délimitation");
         jLabel4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabel4.setName("jLabel4"); // NOI18N
+        jLabel4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel4MouseClicked(evt);
+            }
+        });
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 48)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(217, 221, 224));
@@ -163,7 +213,7 @@ public class Principal extends javax.swing.JFrame{
                 .addComponent(jLabel5)
                 .addGap(18, 18, 18)
                 .addComponent(jSeparator6, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 171, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel6)
                 .addContainerGap())
         );
@@ -172,88 +222,128 @@ public class Principal extends javax.swing.JFrame{
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jSeparator1)
-                        .addComponent(jSeparator3)
-                        .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel3Layout.createSequentialGroup()
-                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel3)
-                                .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel5)
-                                .addComponent(jLabel4))
-                            .addGap(0, 0, Short.MAX_VALUE))
-                        .addGroup(jPanel3Layout.createSequentialGroup()
-                            .addGap(0, 0, Short.MAX_VALUE)
-                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(jSeparator1)
+                    .addComponent(jSeparator3)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jSeparator2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jSeparator5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jSeparator6, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jSeparator6, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3)
+                            .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel4))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
-        jPanel4.setBackground(new java.awt.Color(202, 35, 147));
-        jPanel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(217, 221, 224), 2));
-        jPanel4.setName("jPanel4"); // NOI18N
-        jPanel4.setPreferredSize(new java.awt.Dimension(1024, 700));
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 623, Short.MAX_VALUE)
-        );
-
-        jPanel2.setBackground(new java.awt.Color(186, 24, 81));
-        jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(217, 221, 224), 2));
+        jPanel2.setBackground(new java.awt.Color(245, 224, 183));
+        jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(89, 52, 79), 2));
         jPanel2.setName("jPanel2"); // NOI18N
         jPanel2.setPreferredSize(new java.awt.Dimension(1024, 20));
 
         jLabel7.setFont(new java.awt.Font("Pristina", 1, 24)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(1, 22, 56));
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel7.setText("Projet de fin d'étude ");
+        jLabel7.setText("Matricule :");
         jLabel7.setName("jLabel7"); // NOI18N
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
         );
 
+        jScrollPane1.setAutoscrolls(true);
+        jScrollPane1.setName("jScrollPane1"); // NOI18N
+
+        jPanel4.setBackground(new java.awt.Color(139, 191, 159));
+        jPanel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(89, 52, 79), 2));
+        jPanel4.setAutoscrolls(true);
+        jPanel4.setName("jPanel4"); // NOI18N
+        jPanel4.setPreferredSize(new java.awt.Dimension(1024, 700));
+        jPanel4.setLayout(new java.awt.GridLayout(2, 2));
+
+        jScrollPane2.setBackground(new java.awt.Color(139, 191, 159));
+        jScrollPane2.setAutoscrolls(true);
+        jScrollPane2.setName("jScrollPane2"); // NOI18N
+
+        jLabelSelectedImage.setBackground(new java.awt.Color(139, 191, 159));
+        jLabelSelectedImage.setAutoscrolls(true);
+        jLabelSelectedImage.setName("jLabelSelectedImage"); // NOI18N
+        jLabelSelectedImage.setOpaque(true);
+        jScrollPane2.setViewportView(jLabelSelectedImage);
+
+        jPanel4.add(jScrollPane2);
+
+        jScrollPane5.setAutoscrolls(true);
+        jScrollPane5.setName("jScrollPane5"); // NOI18N
+        jScrollPane5.setOpaque(false);
+
+        jLabelLineImage.setBackground(new java.awt.Color(139, 191, 159));
+        jLabelLineImage.setAutoscrolls(true);
+        jLabelLineImage.setName("jLabelLineImage"); // NOI18N
+        jLabelLineImage.setOpaque(true);
+        jScrollPane5.setViewportView(jLabelLineImage);
+
+        jPanel4.add(jScrollPane5);
+
+        jScrollPane4.setAutoscrolls(true);
+        jScrollPane4.setName("jScrollPane4"); // NOI18N
+
+        jLabelSmooth.setBackground(new java.awt.Color(139, 191, 159));
+        jLabelSmooth.setAutoscrolls(true);
+        jLabelSmooth.setName("jLabelSmooth"); // NOI18N
+        jLabelSmooth.setOpaque(true);
+        jScrollPane4.setViewportView(jLabelSmooth);
+
+        jPanel4.add(jScrollPane4);
+
+        jScrollPane3.setAutoscrolls(true);
+        jScrollPane3.setName("jScrollPane3"); // NOI18N
+
+        jLabel9.setBackground(new java.awt.Color(139, 191, 159));
+        jLabel9.setAutoscrolls(true);
+        jLabel9.setName("jLabel9"); // NOI18N
+        jLabel9.setOpaque(true);
+        jScrollPane3.setViewportView(jLabel9);
+
+        jPanel4.add(jScrollPane3);
+
+        jScrollPane1.setViewportView(jPanel4);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 776, Short.MAX_VALUE)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 776, Short.MAX_VALUE)
-            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 776, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1047, Short.MAX_VALUE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 1047, Short.MAX_VALUE)
+            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 1047, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 627, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 542, Short.MAX_VALUE)
                 .addGap(0, 0, 0)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0))
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -278,6 +368,54 @@ public class Principal extends javax.swing.JFrame{
     private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseClicked
         System.exit(0);
     }//GEN-LAST:event_jLabel6MouseClicked
+    private IplImage originalImage;
+    private IplImage blackAndWhiteImage;
+    private IplImage lineImageImage;
+    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
+        // TODO add your handling code here:
+        JFileChooser chooser = new JFileChooser();
+        chooser.showOpenDialog(null);
+        originalImage = cvLoadImage(chooser.getSelectedFile().getAbsolutePath());
+        blackAndWhiteImage = IplImage.create(originalImage.width(),
+                originalImage.height(), IPL_DEPTH_8U, 1);
+        cvSmooth(originalImage, originalImage);
+        String smoothed = "smoothed.jpg";
+        cvSaveImage(smoothed, originalImage);
+        cvCvtColor(originalImage, blackAndWhiteImage, CV_BGR2GRAY);
+        cvAdaptiveThreshold(blackAndWhiteImage, blackAndWhiteImage, 255, CV_ADAPTIVE_THRESH_GAUSSIAN_C, CV_THRESH_BINARY_INV, 7, 7);
+        String blackAndWhite = "test_2.jpg";
+        cvSaveImage(blackAndWhite, blackAndWhiteImage);
+        jLabelSelectedImage.setIcon(new ImageIcon(smoothed));
+        jLabelSmooth.setIcon(new ImageIcon(blackAndWhite));
+    }//GEN-LAST:event_jLabel1MouseClicked
+
+    String imagelines = "imageLines.jpg";
+
+    private void findLines(IplImage thresholdImg) {
+        IplImage dst;
+        IplImage colorDst;
+        dst = cvCreateImage(cvGetSize(thresholdImg), thresholdImg.depth(), 1);
+        colorDst = cvCreateImage(cvGetSize(thresholdImg), thresholdImg.depth(), 3);
+        cvCanny(thresholdImg, dst, 100, 200, 3);
+        CvSeq lines = new CvSeq();
+        CvMemStorage storage = cvCreateMemStorage(100000);
+        cvSaveImage(imagelines, dst);
+    }
+
+    private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
+        findLines(blackAndWhiteImage);
+        lineImageImage = cvLoadImage(imagelines);
+        jLabelLineImage.setIcon(new ImageIcon(imagelines));
+    }//GEN-LAST:event_jLabel2MouseClicked
+
+    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_jLabel3MouseClicked
+
+    private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jLabel4MouseClicked
 
     /**
      * @param args the command line arguments
@@ -291,10 +429,19 @@ public class Principal extends javax.swing.JFrame{
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel jLabelLineImage;
+    private javax.swing.JLabel jLabelSelectedImage;
+    private javax.swing.JLabel jLabelSmooth;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
