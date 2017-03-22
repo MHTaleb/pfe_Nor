@@ -5,32 +5,20 @@
  */
 package fenetres;
 
+import com.talcorp.pfe.Logique;
 import java.awt.HeadlessException;
-import javax.swing.ImageIcon;
-import javax.swing.JFileChooser;
-import org.bytedeco.javacpp.opencv_core.CvMemStorage;
-import org.bytedeco.javacpp.opencv_core.CvSeq;
-import static org.bytedeco.javacpp.opencv_core.IPL_DEPTH_8U;
-import org.bytedeco.javacpp.opencv_core.IplImage;
-import static org.bytedeco.javacpp.opencv_core.cvCreateImage;
-import static org.bytedeco.javacpp.opencv_core.cvCreateMemStorage;
-import static org.bytedeco.javacpp.opencv_core.cvGetSize;
-import static org.bytedeco.javacpp.opencv_imgcodecs.cvLoadImage;
-import static org.bytedeco.javacpp.opencv_imgcodecs.cvSaveImage;
-import static org.bytedeco.javacpp.opencv_imgproc.CV_ADAPTIVE_THRESH_GAUSSIAN_C;
-import static org.bytedeco.javacpp.opencv_imgproc.CV_BGR2GRAY;
-import static org.bytedeco.javacpp.opencv_imgproc.CV_THRESH_BINARY_INV;
-import static org.bytedeco.javacpp.opencv_imgproc.cvAdaptiveThreshold;
-import static org.bytedeco.javacpp.opencv_imgproc.cvCanny;
-import static org.bytedeco.javacpp.opencv_imgproc.cvCvtColor;
-import static org.bytedeco.javacpp.opencv_imgproc.cvSmooth;
+
 /**
  *
  * @author Taleb
  */
 public class Principal extends javax.swing.JFrame {
 
+    // objet contenant le design de l interface graphique 
     Design design;
+
+    Logique logique;
+    Segmentation segmentation;
 
     /**
      * Creates new form Principal
@@ -38,9 +26,13 @@ public class Principal extends javax.swing.JFrame {
      * @param design
      */
     public Principal(Design design) throws HeadlessException {
-        super();
+        segmentation = new Segmentation();
+        logique = new Logique();
+        // affectation du design
         this.design = design;
+        //lancement du design
         design.doDesign(this);
+        // initialisation des composants graphiques
         initComponents();
     }
 
@@ -55,15 +47,15 @@ public class Principal extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        jLabelAjouterImage = new javax.swing.JLabel();
+        jLabelCorrigerBruit = new javax.swing.JLabel();
+        jLabelTransformeEnLigne = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
         jSeparator3 = new javax.swing.JSeparator();
         jSeparator4 = new javax.swing.JSeparator();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        jLabelDetecterLaPlaque = new javax.swing.JLabel();
+        jLabelOcrLecture = new javax.swing.JLabel();
         jSeparator5 = new javax.swing.JSeparator();
         jLabel6 = new javax.swing.JLabel();
         jSeparator6 = new javax.swing.JSeparator();
@@ -74,11 +66,19 @@ public class Principal extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jLabelSelectedImage = new javax.swing.JLabel();
         jScrollPane5 = new javax.swing.JScrollPane();
-        jLabelLineImage = new javax.swing.JLabel();
+        jLabelSmouthedImage = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jLabelSmooth = new javax.swing.JLabel();
+        jLabelBlackAndWhiteImage = new javax.swing.JLabel();
+        jScrollPane8 = new javax.swing.JScrollPane();
+        jLabelLinearImage = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jLabelrectengle = new javax.swing.JLabel();
+        jLabelDilated = new javax.swing.JLabel();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        jLabelErosion = new javax.swing.JLabel();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        jLabelSobelFactor = new javax.swing.JLabel();
+        jScrollPane9 = new javax.swing.JScrollPane();
+        jLabelBoundingBoxes = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Détection de matricule");
@@ -92,39 +92,41 @@ public class Principal extends javax.swing.JFrame {
         jPanel3.setName("jPanel3"); // NOI18N
         jPanel3.setPreferredSize(new java.awt.Dimension(1024, 30));
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 48)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(217, 221, 224));
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/picture (1).png"))); // NOI18N
-        jLabel1.setToolTipText("Ajouter Image");
-        jLabel1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jLabel1.setName("jLabel1"); // NOI18N
-        jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
+        jLabelAjouterImage.setFont(new java.awt.Font("Tahoma", 0, 48)); // NOI18N
+        jLabelAjouterImage.setForeground(new java.awt.Color(217, 221, 224));
+        jLabelAjouterImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/picture (1).png"))); // NOI18N
+        jLabelAjouterImage.setToolTipText("Ajouter Image");
+        jLabelAjouterImage.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabelAjouterImage.setName("jLabelAjouterImage"); // NOI18N
+        jLabelAjouterImage.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel1MouseClicked(evt);
+                jLabelAjouterImageMouseClicked(evt);
             }
         });
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 48)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(217, 221, 224));
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/smooth-line-chart.png"))); // NOI18N
-        jLabel2.setToolTipText("Correction de bruit");
-        jLabel2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jLabel2.setName("jLabel2"); // NOI18N
-        jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
+        jLabelCorrigerBruit.setFont(new java.awt.Font("Tahoma", 0, 48)); // NOI18N
+        jLabelCorrigerBruit.setForeground(new java.awt.Color(217, 221, 224));
+        jLabelCorrigerBruit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/smooth-line-chart.png"))); // NOI18N
+        jLabelCorrigerBruit.setToolTipText("Correction de bruit");
+        jLabelCorrigerBruit.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabelCorrigerBruit.setEnabled(false);
+        jLabelCorrigerBruit.setName("jLabelCorrigerBruit"); // NOI18N
+        jLabelCorrigerBruit.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel2MouseClicked(evt);
+                jLabelCorrigerBruitMouseClicked(evt);
             }
         });
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 48)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(217, 221, 224));
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icon (1).png"))); // NOI18N
-        jLabel3.setToolTipText("Transformer en Matrice");
-        jLabel3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jLabel3.setName("jLabel3"); // NOI18N
-        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+        jLabelTransformeEnLigne.setFont(new java.awt.Font("Tahoma", 0, 48)); // NOI18N
+        jLabelTransformeEnLigne.setForeground(new java.awt.Color(217, 221, 224));
+        jLabelTransformeEnLigne.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icon (1).png"))); // NOI18N
+        jLabelTransformeEnLigne.setToolTipText("Transformer en Matrice");
+        jLabelTransformeEnLigne.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabelTransformeEnLigne.setEnabled(false);
+        jLabelTransformeEnLigne.setName("jLabelTransformeEnLigne"); // NOI18N
+        jLabelTransformeEnLigne.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel3MouseClicked(evt);
+                jLabelTransformeEnLigneMouseClicked(evt);
             }
         });
 
@@ -144,24 +146,26 @@ public class Principal extends javax.swing.JFrame {
         jSeparator4.setOrientation(javax.swing.SwingConstants.VERTICAL);
         jSeparator4.setName("jSeparator4"); // NOI18N
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 48)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(217, 221, 224));
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/cube-molecule.png"))); // NOI18N
-        jLabel4.setToolTipText("Segmentation & délimitation");
-        jLabel4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jLabel4.setName("jLabel4"); // NOI18N
-        jLabel4.addMouseListener(new java.awt.event.MouseAdapter() {
+        jLabelDetecterLaPlaque.setFont(new java.awt.Font("Tahoma", 0, 48)); // NOI18N
+        jLabelDetecterLaPlaque.setForeground(new java.awt.Color(217, 221, 224));
+        jLabelDetecterLaPlaque.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/cube-molecule.png"))); // NOI18N
+        jLabelDetecterLaPlaque.setToolTipText("Segmentation & délimitation");
+        jLabelDetecterLaPlaque.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabelDetecterLaPlaque.setEnabled(false);
+        jLabelDetecterLaPlaque.setName("jLabelDetecterLaPlaque"); // NOI18N
+        jLabelDetecterLaPlaque.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel4MouseClicked(evt);
+                jLabelDetecterLaPlaqueMouseClicked(evt);
             }
         });
 
-        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 48)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(217, 221, 224));
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/license-plate.png"))); // NOI18N
-        jLabel5.setToolTipText("Détection de la plaque");
-        jLabel5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jLabel5.setName("jLabel5"); // NOI18N
+        jLabelOcrLecture.setFont(new java.awt.Font("Tahoma", 0, 48)); // NOI18N
+        jLabelOcrLecture.setForeground(new java.awt.Color(217, 221, 224));
+        jLabelOcrLecture.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/license-plate.png"))); // NOI18N
+        jLabelOcrLecture.setToolTipText("Détection de la plaque");
+        jLabelOcrLecture.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabelOcrLecture.setEnabled(false);
+        jLabelOcrLecture.setName("jLabelOcrLecture"); // NOI18N
 
         jSeparator5.setBackground(new java.awt.Color(217, 221, 224));
         jSeparator5.setOrientation(javax.swing.SwingConstants.VERTICAL);
@@ -193,23 +197,23 @@ public class Principal extends javax.swing.JFrame {
                 .addGap(17, 17, 17)
                 .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel1)
+                .addComponent(jLabelAjouterImage)
                 .addGap(18, 18, 18)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel2)
+                .addComponent(jLabelCorrigerBruit)
                 .addGap(18, 18, 18)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel3)
+                .addComponent(jLabelTransformeEnLigne)
                 .addGap(18, 18, 18)
                 .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel4)
+                .addComponent(jLabelDetecterLaPlaque)
                 .addGap(18, 18, 18)
                 .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel5)
+                .addComponent(jLabelOcrLecture)
                 .addGap(18, 18, 18)
                 .addComponent(jSeparator6, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -224,24 +228,21 @@ public class Principal extends javax.swing.JFrame {
                     .addComponent(jSeparator1)
                     .addComponent(jSeparator3)
                     .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabelCorrigerBruit)
+                            .addComponent(jLabelTransformeEnLigne)
+                            .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabelOcrLecture)
+                            .addComponent(jLabelDetecterLaPlaque))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jSeparator2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jSeparator5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jSeparator6, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3)
-                            .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel4))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                            .addComponent(jSeparator5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabelAjouterImage, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jSeparator6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
         );
 
@@ -276,8 +277,8 @@ public class Principal extends javax.swing.JFrame {
         jPanel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(89, 52, 79), 2));
         jPanel4.setAutoscrolls(true);
         jPanel4.setName("jPanel4"); // NOI18N
-        jPanel4.setPreferredSize(new java.awt.Dimension(1024, 700));
-        jPanel4.setLayout(new java.awt.GridLayout(2, 2));
+        jPanel4.setPreferredSize(new java.awt.Dimension(1024, 2210));
+        jPanel4.setLayout(new java.awt.GridLayout(4, 2));
 
         jScrollPane2.setBackground(new java.awt.Color(139, 191, 159));
         jScrollPane2.setAutoscrolls(true);
@@ -297,39 +298,87 @@ public class Principal extends javax.swing.JFrame {
         jScrollPane5.setName("jScrollPane5"); // NOI18N
         jScrollPane5.setOpaque(false);
 
-        jLabelLineImage.setBackground(new java.awt.Color(139, 191, 159));
-        jLabelLineImage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabelLineImage.setAutoscrolls(true);
-        jLabelLineImage.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jLabelLineImage.setName("jLabelLineImage"); // NOI18N
-        jLabelLineImage.setOpaque(true);
-        jScrollPane5.setViewportView(jLabelLineImage);
+        jLabelSmouthedImage.setBackground(new java.awt.Color(139, 191, 159));
+        jLabelSmouthedImage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabelSmouthedImage.setAutoscrolls(true);
+        jLabelSmouthedImage.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jLabelSmouthedImage.setName("jLabelSmouthedImage"); // NOI18N
+        jLabelSmouthedImage.setOpaque(true);
+        jScrollPane5.setViewportView(jLabelSmouthedImage);
 
         jPanel4.add(jScrollPane5);
 
         jScrollPane4.setAutoscrolls(true);
         jScrollPane4.setName("jScrollPane4"); // NOI18N
 
-        jLabelSmooth.setBackground(new java.awt.Color(139, 191, 159));
-        jLabelSmooth.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabelSmooth.setAutoscrolls(true);
-        jLabelSmooth.setName("jLabelSmooth"); // NOI18N
-        jLabelSmooth.setOpaque(true);
-        jScrollPane4.setViewportView(jLabelSmooth);
+        jLabelBlackAndWhiteImage.setBackground(new java.awt.Color(139, 191, 159));
+        jLabelBlackAndWhiteImage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabelBlackAndWhiteImage.setAutoscrolls(true);
+        jLabelBlackAndWhiteImage.setName("jLabelBlackAndWhiteImage"); // NOI18N
+        jLabelBlackAndWhiteImage.setOpaque(true);
+        jScrollPane4.setViewportView(jLabelBlackAndWhiteImage);
 
         jPanel4.add(jScrollPane4);
+
+        jScrollPane8.setAutoscrolls(true);
+        jScrollPane8.setName("jScrollPane8"); // NOI18N
+
+        jLabelLinearImage.setBackground(new java.awt.Color(139, 191, 159));
+        jLabelLinearImage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabelLinearImage.setAutoscrolls(true);
+        jLabelLinearImage.setName("jLabelLinearImage"); // NOI18N
+        jLabelLinearImage.setOpaque(true);
+        jScrollPane8.setViewportView(jLabelLinearImage);
+
+        jPanel4.add(jScrollPane8);
 
         jScrollPane3.setAutoscrolls(true);
         jScrollPane3.setName("jScrollPane3"); // NOI18N
 
-        jLabelrectengle.setBackground(new java.awt.Color(139, 191, 159));
-        jLabelrectengle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabelrectengle.setAutoscrolls(true);
-        jLabelrectengle.setName("jLabelrectengle"); // NOI18N
-        jLabelrectengle.setOpaque(true);
-        jScrollPane3.setViewportView(jLabelrectengle);
+        jLabelDilated.setBackground(new java.awt.Color(139, 191, 159));
+        jLabelDilated.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabelDilated.setAutoscrolls(true);
+        jLabelDilated.setName("jLabelDilated"); // NOI18N
+        jLabelDilated.setOpaque(true);
+        jScrollPane3.setViewportView(jLabelDilated);
 
         jPanel4.add(jScrollPane3);
+
+        jScrollPane6.setAutoscrolls(true);
+        jScrollPane6.setName("jScrollPane6"); // NOI18N
+
+        jLabelErosion.setBackground(new java.awt.Color(139, 191, 159));
+        jLabelErosion.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabelErosion.setAutoscrolls(true);
+        jLabelErosion.setName("jLabelErosion"); // NOI18N
+        jLabelErosion.setOpaque(true);
+        jScrollPane6.setViewportView(jLabelErosion);
+
+        jPanel4.add(jScrollPane6);
+
+        jScrollPane7.setAutoscrolls(true);
+        jScrollPane7.setName("jScrollPane7"); // NOI18N
+
+        jLabelSobelFactor.setBackground(new java.awt.Color(139, 191, 159));
+        jLabelSobelFactor.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabelSobelFactor.setAutoscrolls(true);
+        jLabelSobelFactor.setName("jLabelSobelFactor"); // NOI18N
+        jLabelSobelFactor.setOpaque(true);
+        jScrollPane7.setViewportView(jLabelSobelFactor);
+
+        jPanel4.add(jScrollPane7);
+
+        jScrollPane9.setAutoscrolls(true);
+        jScrollPane9.setName("jScrollPane9"); // NOI18N
+
+        jLabelBoundingBoxes.setBackground(new java.awt.Color(139, 191, 159));
+        jLabelBoundingBoxes.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabelBoundingBoxes.setAutoscrolls(true);
+        jLabelBoundingBoxes.setName("jLabelBoundingBoxes"); // NOI18N
+        jLabelBoundingBoxes.setOpaque(true);
+        jScrollPane9.setViewportView(jLabelBoundingBoxes);
+
+        jPanel4.add(jScrollPane9);
 
         jScrollPane1.setViewportView(jPanel4);
 
@@ -337,9 +386,9 @@ public class Principal extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1047, Short.MAX_VALUE)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 1047, Short.MAX_VALUE)
-            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 1047, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1061, Short.MAX_VALUE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 1061, Short.MAX_VALUE)
+            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 1061, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -371,77 +420,69 @@ public class Principal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseClicked
-        System.exit(0);
+        logique.quitter();
     }//GEN-LAST:event_jLabel6MouseClicked
-    private IplImage originalImage;
-    private IplImage blackAndWhiteImage;
-    private IplImage lineImageImage;
-    String blackAndWhite = "test_2.jpg";
-    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
+
+    boolean retry = false;
+    private void jLabelAjouterImageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelAjouterImageMouseClicked
         // TODO add your handling code here:
-        JFileChooser chooser = new JFileChooser();
-        chooser.showOpenDialog(null);
-        originalImage = cvLoadImage(chooser.getSelectedFile().getAbsolutePath());
-        blackAndWhiteImage = IplImage.create(originalImage.width(),
-                originalImage.height(), IPL_DEPTH_8U, 1);
-        cvSmooth(originalImage, originalImage);
-        String smoothed = "smoothed.jpg";
-        cvSaveImage(smoothed, originalImage);
-        cvCvtColor(originalImage, blackAndWhiteImage, CV_BGR2GRAY);
-        cvAdaptiveThreshold(blackAndWhiteImage, blackAndWhiteImage, 255, CV_ADAPTIVE_THRESH_GAUSSIAN_C, CV_THRESH_BINARY_INV, 7, 7);
-        cvSaveImage(blackAndWhite, blackAndWhiteImage);
-        jLabelSelectedImage.setIcon(new ImageIcon(smoothed));
-        jLabelSmooth.setIcon(new ImageIcon(blackAndWhite));
-    }//GEN-LAST:event_jLabel1MouseClicked
+        //logique.reset(jLabelCorrigerBruit.isEnabled());
 
-    String imagelines = "imageLines.jpg";
 
-    private void findLines(IplImage thresholdImg) {
-        IplImage dst;
-        IplImage colorDst;
-        dst = cvCreateImage(cvGetSize(thresholdImg), thresholdImg.depth(), 1);
-        colorDst = cvCreateImage(cvGetSize(thresholdImg), thresholdImg.depth(), 3);
-        cvCanny(thresholdImg, dst, 100, 200, 3);
-        CvSeq lines = new CvSeq();
-        CvMemStorage storage = cvCreateMemStorage(100000);
-        cvSaveImage(imagelines, dst);
-    }
+            logique.loadPlate(jLabelSelectedImage);
+            jLabelCorrigerBruit.setEnabled(true);
 
-    private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
-        findLines(blackAndWhiteImage);
-        lineImageImage = cvLoadImage(imagelines);
-        jLabelLineImage.setIcon(new ImageIcon(imagelines));
-    }//GEN-LAST:event_jLabel2MouseClicked
+    }//GEN-LAST:event_jLabelAjouterImageMouseClicked
 
-    
-    
-   
-    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
-        // TODO add your handling code here:
-        
-  
-    }//GEN-LAST:event_jLabel3MouseClicked
 
-    private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jLabel4MouseClicked
+    private void jLabelCorrigerBruitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelCorrigerBruitMouseClicked
+        logique.smoothAndBlur(jLabelSmouthedImage);
+        jLabelTransformeEnLigne.setEnabled(true);
+    }//GEN-LAST:event_jLabelCorrigerBruitMouseClicked
+
+
+    private void jLabelTransformeEnLigneMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelTransformeEnLigneMouseClicked
+
+        logique.toB_W(jLabelBlackAndWhiteImage);
+        logique.findLines(jLabelLinearImage);
+
+        jLabelDetecterLaPlaque.setEnabled(true);
+
+    }//GEN-LAST:event_jLabelTransformeEnLigneMouseClicked
+
+
+    private void jLabelDetecterLaPlaqueMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelDetecterLaPlaqueMouseClicked
+        try {
+
+            segmentation.dilate_erose(jLabelErosion, jLabelDilated);
+            segmentation.applySobelFactor(jLabelSobelFactor);
+            //segmentation.setboundingBoxes(jLabelBoundingBoxes);
+            logique.findContours(jLabelBoundingBoxes);
+        } catch (Exception e) {
+            System.out.println("error: " + e.getMessage());
+        }
+    }//GEN-LAST:event_jLabelDetecterLaPlaqueMouseClicked
 
     /**
      * @param args the command line arguments
      */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabelLineImage;
+    private javax.swing.JLabel jLabelAjouterImage;
+    private javax.swing.JLabel jLabelBlackAndWhiteImage;
+    private javax.swing.JLabel jLabelBoundingBoxes;
+    private javax.swing.JLabel jLabelCorrigerBruit;
+    private javax.swing.JLabel jLabelDetecterLaPlaque;
+    private javax.swing.JLabel jLabelDilated;
+    private javax.swing.JLabel jLabelErosion;
+    private javax.swing.JLabel jLabelLinearImage;
+    private javax.swing.JLabel jLabelOcrLecture;
     private javax.swing.JLabel jLabelSelectedImage;
-    private javax.swing.JLabel jLabelSmooth;
-    private javax.swing.JLabel jLabelrectengle;
+    private javax.swing.JLabel jLabelSmouthedImage;
+    private javax.swing.JLabel jLabelSobelFactor;
+    private javax.swing.JLabel jLabelTransformeEnLigne;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -451,6 +492,10 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JScrollPane jScrollPane7;
+    private javax.swing.JScrollPane jScrollPane8;
+    private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
