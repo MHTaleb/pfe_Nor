@@ -18,6 +18,10 @@ public class imagePath {
     protected String imagelines = "imageLines.jpg";
     protected String smoothed = "smoothed.jpg";
     protected String sobelImage="SobelImage.jpg";
+    protected String original="original.jpg";
+    protected String ocrReadFrom="OcrReadFrom.jpg";
+    
+    
     
     protected String blackAndWhiteContour = "blackAndWhiteContour.jpg";
     protected String erosionContour = "erosionContour.jpg";

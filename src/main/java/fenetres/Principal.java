@@ -7,6 +7,8 @@ package fenetres;
 
 import com.talcorp.pfe.Logique;
 import java.awt.HeadlessException;
+import java.io.File;
+import net.sourceforge.tess4j.Tesseract;
 
 /**
  *
@@ -60,7 +62,7 @@ public class Principal extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jSeparator6 = new javax.swing.JSeparator();
         jPanel2 = new javax.swing.JPanel();
-        jLabel7 = new javax.swing.JLabel();
+        jLabelResultatFinal = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -166,6 +168,11 @@ public class Principal extends javax.swing.JFrame {
         jLabelOcrLecture.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabelOcrLecture.setEnabled(false);
         jLabelOcrLecture.setName("jLabelOcrLecture"); // NOI18N
+        jLabelOcrLecture.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabelOcrLectureMouseClicked(evt);
+            }
+        });
 
         jSeparator5.setBackground(new java.awt.Color(217, 221, 224));
         jSeparator5.setOrientation(javax.swing.SwingConstants.VERTICAL);
@@ -251,23 +258,23 @@ public class Principal extends javax.swing.JFrame {
         jPanel2.setName("jPanel2"); // NOI18N
         jPanel2.setPreferredSize(new java.awt.Dimension(1024, 20));
 
-        jLabel7.setFont(new java.awt.Font("Pristina", 1, 24)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(1, 22, 56));
-        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel7.setText("Matricule :");
-        jLabel7.setName("jLabel7"); // NOI18N
+        jLabelResultatFinal.setFont(new java.awt.Font("Pristina", 1, 24)); // NOI18N
+        jLabelResultatFinal.setForeground(new java.awt.Color(1, 22, 56));
+        jLabelResultatFinal.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabelResultatFinal.setText("Matricule :");
+        jLabelResultatFinal.setName("jLabelResultatFinal"); // NOI18N
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabelResultatFinal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
+            .addComponent(jLabelResultatFinal, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
         );
 
         jScrollPane1.setAutoscrolls(true);
@@ -443,7 +450,8 @@ public class Principal extends javax.swing.JFrame {
 
     private void jLabelTransformeEnLigneMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelTransformeEnLigneMouseClicked
 
-        logique.toB_W(jLabelBlackAndWhiteImage);
+        segmentation.toB_A_W(jLabelBlackAndWhiteImage); // pour le ocr lecture
+        logique.toB_W(jLabelBlackAndWhiteImage);// pour la segmentation
         logique.findLines(jLabelLinearImage);
 
         jLabelDetecterLaPlaque.setEnabled(true);
@@ -458,10 +466,17 @@ public class Principal extends javax.swing.JFrame {
             segmentation.applySobelFactor(jLabelSobelFactor);
             //segmentation.setboundingBoxes(jLabelBoundingBoxes);
             logique.findContours(jLabelBoundingBoxes);
+            jLabelOcrLecture.setEnabled(true);
         } catch (Exception e) {
             System.out.println("error: " + e.getMessage());
         }
     }//GEN-LAST:event_jLabelDetecterLaPlaqueMouseClicked
+
+    private void jLabelOcrLectureMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelOcrLectureMouseClicked
+        // TODO add your handling code here:
+        OCRLogique ocrLogique = new OCRLogique();
+        ocrLogique.doOCR(jLabelResultatFinal);
+    }//GEN-LAST:event_jLabelOcrLectureMouseClicked
 
     /**
      * @param args the command line arguments
@@ -469,7 +484,6 @@ public class Principal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabelAjouterImage;
     private javax.swing.JLabel jLabelBlackAndWhiteImage;
     private javax.swing.JLabel jLabelBoundingBoxes;
@@ -479,6 +493,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelErosion;
     private javax.swing.JLabel jLabelLinearImage;
     private javax.swing.JLabel jLabelOcrLecture;
+    private javax.swing.JLabel jLabelResultatFinal;
     private javax.swing.JLabel jLabelSelectedImage;
     private javax.swing.JLabel jLabelSmouthedImage;
     private javax.swing.JLabel jLabelSobelFactor;

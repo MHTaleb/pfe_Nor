@@ -6,9 +6,12 @@
 package com.talcorp.pfe;
 
 import fenetres.imagePath;
+import java.awt.Rectangle;
+import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import org.bytedeco.javacpp.Loader;
 import org.bytedeco.javacpp.opencv_core;
 import org.bytedeco.javacpp.opencv_core.CvContour;
@@ -27,6 +30,7 @@ import static org.bytedeco.javacpp.opencv_imgproc.CV_ADAPTIVE_THRESH_GAUSSIAN_C;
 import static org.bytedeco.javacpp.opencv_imgproc.CV_BGR2GRAY;
 import static org.bytedeco.javacpp.opencv_imgproc.CV_CHAIN_APPROX_SIMPLE;
 import static org.bytedeco.javacpp.opencv_imgproc.CV_RETR_CCOMP;
+import static org.bytedeco.javacpp.opencv_imgproc.CV_THRESH_BINARY;
 import static org.bytedeco.javacpp.opencv_imgproc.CV_THRESH_BINARY_INV;
 import static org.bytedeco.javacpp.opencv_imgproc.MORPH_RECT;
 import static org.bytedeco.javacpp.opencv_imgproc.cvAdaptiveThreshold;
@@ -57,6 +61,14 @@ public class Logique extends imagePath {
     private static opencv_core.IplImage blackAndWhiteImage;
     private static opencv_core.IplImage lineImage;
 
+    
+    private static ArrayList<Rectangle> rectangles = new ArrayList<>();
+
+    public static ArrayList<Rectangle> getRectangles() {
+        return rectangles;
+    }
+    private IplImage blackAndWhiteImageOCR;
+    
     public Logique() {
      System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
     }
@@ -109,6 +121,7 @@ public class Logique extends imagePath {
         JFileChooser chooser = new JFileChooser();
         chooser.showOpenDialog(null);
         this.originalImage = opencv_imgcodecs.cvLoadImage(chooser.getSelectedFile().getAbsolutePath());
+        cvSaveImage(original, originalImage);
         jLabelSelectedImage.setIcon(new ImageIcon(chooser.getSelectedFile().getAbsolutePath()));
     }
 
@@ -160,6 +173,7 @@ public class Logique extends imagePath {
         // qui vont etre appliquer au blur
         org.opencv.core.Mat source = Imgcodecs.imread(smoothed); // on recupere l image lissé
         blur(source, source, new Size(3, 3));// on applique le blur pour avoir de meilleur qualité de couleur
+        
         // cela nous permetera d avoir un meilleur resultat a la transformation en binaire ( noir et blan seulement )
         
         Imgcodecs.imwrite(smoothed, source); // sauvegarder le resultat
@@ -167,6 +181,26 @@ public class Logique extends imagePath {
     }
 
     public void toB_W(JLabel jLabelBlackAndWhiteImage) {
+        // cella est l image de l ocr
+        smouthedImage = opencv_imgcodecs.cvLoadImage(ocrReadFrom);
+         blackAndWhiteImageOCR = opencv_core.IplImage.create(smouthedImage.width(),
+                smouthedImage.height(), IPL_DEPTH_8U, 1);
+         // la fonction qui va executé la transformation en noire et blan
+        System.out.println("0");
+        //cvAdaptiveThreshold(smouthedImage, smouthedImage, 255, CV_ADAPTIVE_THRESH_GAUSSIAN_C, opencv_imgproc.CV_THRESH_MASK, 15, -2);
+         opencv_imgproc.cvSmooth(smouthedImage, smouthedImage);
+        System.out.println("1");
+        cvCvtColor(smouthedImage, blackAndWhiteImageOCR, CV_BGR2GRAY);
+        System.out.println("2");
+        cvAdaptiveThreshold(blackAndWhiteImageOCR, blackAndWhiteImageOCR, 255, CV_ADAPTIVE_THRESH_GAUSSIAN_C, CV_THRESH_BINARY_INV, 17, -4);
+        System.out.println("3");
+         opencv_imgproc.cvSmooth(blackAndWhiteImageOCR, blackAndWhiteImageOCR);
+        // fin de la transformation 
+        cvSaveImage(ocrReadFrom, blackAndWhiteImageOCR);
+        
+        //JOptionPane.showConfirmDialog(null, "");
+        //-------------------------------------------------------------------------
+        //cella est l image des contours
         // on recherge l image lissé et amelioré dans  smouthedImage
         smouthedImage = opencv_imgcodecs.cvLoadImage(smoothed);
         // on prepare une image en noire et blan qui est a la taille de l image lissé ...
@@ -176,7 +210,7 @@ public class Logique extends imagePath {
                 smouthedImage.height(), IPL_DEPTH_8U, 1);
          // la fonction qui va executé la transformation en noire et blan
         cvCvtColor(smouthedImage, blackAndWhiteImage, CV_BGR2GRAY);
-        cvAdaptiveThreshold(blackAndWhiteImage, blackAndWhiteImage, 255, CV_ADAPTIVE_THRESH_GAUSSIAN_C, CV_THRESH_BINARY_INV, 7, 7);
+        cvAdaptiveThreshold(blackAndWhiteImage, blackAndWhiteImage, 255, CV_ADAPTIVE_THRESH_GAUSSIAN_C, CV_THRESH_BINARY_INV, 5, 5);
         // fin de la transformation 
         cvSaveImage(blackAndWhite, blackAndWhiteImage);
         jLabelBlackAndWhiteImage.setIcon(new ImageIcon(blackAndWhite));
@@ -184,9 +218,8 @@ public class Logique extends imagePath {
 
     public void findContours(JLabel jLabel){
          IplImage resultImage = opencv_imgcodecs.cvLoadImage(dilation);
-         IplImage srcImage = opencv_imgcodecs.cvLoadImage(sobelImage,CvType.CV_8UC1);
-         IplConvKernel kernel
-                = cvCreateStructuringElementEx(1, 1, 0, 0, MORPH_RECT);
+         IplImage srcImage = opencv_imgcodecs.cvLoadImage(dilation,CvType.CV_8UC1);
+         IplConvKernel kernel = cvCreateStructuringElementEx(1, 1, 0, 0, MORPH_RECT);
          opencv_imgproc.cvDilate(srcImage, srcImage,kernel , 5);
          opencv_imgproc.cvCanny(srcImage, srcImage, 100, 300);
 
@@ -214,10 +247,11 @@ public class Logique extends imagePath {
 
 //        if (boundbox.width()>logicalWidth/7) // il n est pas tres petit
 //        if (boundbox.width()<logicalWidth-logicalWidth/7) // si grand pour qu il sois une plaque
-        if (boundbox.width()<boundbox.height()*15) // la hauteur est si petit par rapport a la largeur
-       if (boundbox.width()>boundbox.height()*3) // la largeur est au moins 3 fois la hauteur
+      if (boundbox.width()<boundbox.height()*10) // la hauteur est si petit par rapport a la largeur
+      if (boundbox.width()>boundbox.height()*4) // la largeur est au moins 3 fois la hauteur
         {
             
+            rectangles.add(new Rectangle(boundbox.x(), boundbox.y(), boundbox.width(), boundbox.height()));
             cvRectangle( resultImage , cvPoint( boundbox.x(), boundbox.y() ), 
                 cvPoint( boundbox.x() + boundbox.width(), boundbox.y() + boundbox.height()),
                 cvScalar( 0, 0, 255, 0 ), 2, 0, 0 );
