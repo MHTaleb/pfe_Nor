@@ -17,3 +17,7 @@ puis lancer build  puis run : si netbeans demande quel classe va se lancer en pr
 Merci
 
 sava prendre du temps au debut cela en dependant de votre connection car il va telecharger opencv
+
+
+si tu n arrive pas a copier le projet : https://www.youtube.com/watch?v=mzzAUEFS4vs
+telecharge la bibliotheque opencv et met la dans c:
