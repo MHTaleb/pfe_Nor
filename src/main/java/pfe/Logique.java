@@ -3,15 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.talcorp.pfe;
+package pfe;
 
-import fenetres.imagePath;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import org.bytedeco.javacpp.Loader;
 import org.bytedeco.javacpp.opencv_core;
 import org.bytedeco.javacpp.opencv_core.CvContour;
@@ -52,7 +50,7 @@ import static org.opencv.imgproc.Imgproc.blur;
  *
  * @author Taleb
  */
-public class Logique extends imagePath {
+public class Logique extends imagePath implements InfLogique {
 
    
     // l'image original dans une variable de type IntelProcessingImage
@@ -117,12 +115,19 @@ public class Logique extends imagePath {
      * une fois tout cela reussis on va afficher l image selectionner dans le label etant une icone
      * pour cela on se sert de ImageIcon qui est dedier a ce propos
      */
+    @Override
     public void loadPlate(JLabel jLabelSelectedImage) {
-        JFileChooser chooser = new JFileChooser();
-        chooser.showOpenDialog(null);
+        JFileChooser chooser = new JFileChooser();// c est l object qui nous permet de rechercher l image
+        chooser.showOpenDialog(null);// on demande a l objet de nous donner l interface de recherche d un fichier pour l ouvrir
+        //cvLoadImage sert a lire l image selectionner et la mettre dans la variable originalImage
         this.originalImage = opencv_imgcodecs.cvLoadImage(chooser.getSelectedFile().getAbsolutePath());
+        //cvSaveImage sert a sauvegarder l image selection au sein du projet
         cvSaveImage(original, originalImage);
+        //j affiche l image dans le jlabel dans la fenetre principal
         jLabelSelectedImage.setIcon(new ImageIcon(chooser.getSelectedFile().getAbsolutePath()));
+        // jlabel se sert de la class image icon pour afficher des image donc on va instancier un nouveau objet de 
+        // type image icon on lui indiquant ou se trouve notre image selectionner , celui la va la charger et l afficher
+        // dans notre label
     }
 
     
@@ -149,6 +154,7 @@ public class Logique extends imagePath {
      * cvCanny a besoin l image original , la destination , la ratio d entré , puis au min 3*la ration d entré , taille de la matrice qui est 3
      * vu par la documentation
      */
+    @Override
     public void findLines(JLabel jLabel) {
        
         // l image qui va etre en resultat final en  noire et blan sous forme de ligne
@@ -162,6 +168,7 @@ public class Logique extends imagePath {
 
     }
 
+    @Override
     public void smoothAndBlur(JLabel jLabelSmouthedImage) {
         
         // on applique un smooth(lissage) qui va rendre l image un pti peu flou mais bcp plus facile a etudier
@@ -180,6 +187,7 @@ public class Logique extends imagePath {
         jLabelSmouthedImage.setIcon(new ImageIcon(smoothed)); // montrer le resultat dans le label
     }
 
+    @Override
     public void toB_W(JLabel jLabelBlackAndWhiteImage) {
         // cella est l image de l ocr
         smouthedImage = opencv_imgcodecs.cvLoadImage(ocrReadFrom);
@@ -188,11 +196,11 @@ public class Logique extends imagePath {
          // la fonction qui va executé la transformation en noire et blan
         System.out.println("0");
         //cvAdaptiveThreshold(smouthedImage, smouthedImage, 255, CV_ADAPTIVE_THRESH_GAUSSIAN_C, opencv_imgproc.CV_THRESH_MASK, 15, -2);
-         opencv_imgproc.cvSmooth(smouthedImage, smouthedImage);
+        opencv_imgproc.cvSmooth(smouthedImage, smouthedImage);
         System.out.println("1");
         cvCvtColor(smouthedImage, blackAndWhiteImageOCR, CV_BGR2GRAY);
         System.out.println("2");
-        cvAdaptiveThreshold(blackAndWhiteImageOCR, blackAndWhiteImageOCR, 255, CV_ADAPTIVE_THRESH_GAUSSIAN_C, CV_THRESH_BINARY_INV, 17, -4);
+        cvAdaptiveThreshold(blackAndWhiteImageOCR, blackAndWhiteImageOCR, 255, CV_THRESH_BINARY_INV, CV_THRESH_BINARY, 41, 9);
         System.out.println("3");
          opencv_imgproc.cvSmooth(blackAndWhiteImageOCR, blackAndWhiteImageOCR);
         // fin de la transformation 
@@ -216,6 +224,7 @@ public class Logique extends imagePath {
         jLabelBlackAndWhiteImage.setIcon(new ImageIcon(blackAndWhite));
     }
 
+    @Override
     public void findContours(JLabel jLabel){
          IplImage resultImage = opencv_imgcodecs.cvLoadImage(dilation);
          IplImage srcImage = opencv_imgcodecs.cvLoadImage(dilation,CvType.CV_8UC1);
@@ -246,15 +255,15 @@ public class Logique extends imagePath {
         boundbox = cvBoundingRect(ptr, 0);
 
 //        if (boundbox.width()>logicalWidth/7) // il n est pas tres petit
-//        if (boundbox.width()<logicalWidth-logicalWidth/7) // si grand pour qu il sois une plaque
+        if (boundbox.height()>45) // si grand pour qu il sois une plaque
       if (boundbox.width()<boundbox.height()*10) // la hauteur est si petit par rapport a la largeur
       if (boundbox.width()>boundbox.height()*4) // la largeur est au moins 3 fois la hauteur
         {
             
-            rectangles.add(new Rectangle(boundbox.x(), boundbox.y(), boundbox.width(), boundbox.height()));
-            cvRectangle( resultImage , cvPoint( boundbox.x(), boundbox.y() ), 
-                cvPoint( boundbox.x() + boundbox.width(), boundbox.y() + boundbox.height()),
-                cvScalar( 0, 0, 255, 0 ), 2, 0, 0 );
+            rectangles.add(new Rectangle(boundbox.x()+15, boundbox.y()+8, boundbox.width()-15, boundbox.height()-10));
+            cvRectangle( resultImage , cvPoint( boundbox.x()+15, boundbox.y()+6 ), 
+                cvPoint( boundbox.x()-15 + boundbox.width(), boundbox.y()-10 + boundbox.height()),
+                cvScalar( 0, 0, 255, 0 ), 1, 0, 0 );
         }
                 
     }

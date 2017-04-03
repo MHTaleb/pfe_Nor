@@ -5,10 +5,12 @@
  */
 package fenetres;
 
-import com.talcorp.pfe.Logique;
+
+import pfe.Logique;
 import java.awt.HeadlessException;
-import java.io.File;
-import net.sourceforge.tess4j.Tesseract;
+import pfe.InfLogique;
+import pfe.InfSegmentation;
+import pfe.Segmentation;
 
 /**
  *
@@ -19,8 +21,8 @@ public class Principal extends javax.swing.JFrame {
     // objet contenant le design de l interface graphique 
     Design design;
 
-    Logique logique;
-    Segmentation segmentation;
+    InfLogique logique;
+    InfSegmentation segmentation;
 
     /**
      * Creates new form Principal
@@ -28,7 +30,9 @@ public class Principal extends javax.swing.JFrame {
      * @param design
      */
     public Principal(Design design) throws HeadlessException {
+        // creer une instance de la segmentation
         segmentation = new Segmentation();
+        // logique c est une class qui represente la logique a suivre pour le pfe
         logique = new Logique();
         // affectation du design
         this.design = design;
@@ -62,6 +66,7 @@ public class Principal extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jSeparator6 = new javax.swing.JSeparator();
         jPanel2 = new javax.swing.JPanel();
+        jScrollPane10 = new javax.swing.JScrollPane();
         jLabelResultatFinal = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jPanel4 = new javax.swing.JPanel();
@@ -258,23 +263,28 @@ public class Principal extends javax.swing.JFrame {
         jPanel2.setName("jPanel2"); // NOI18N
         jPanel2.setPreferredSize(new java.awt.Dimension(1024, 20));
 
+        jScrollPane10.setBackground(new java.awt.Color(245, 224, 183));
+        jScrollPane10.setName("jScrollPane10"); // NOI18N
+
+        jLabelResultatFinal.setBackground(new java.awt.Color(245, 224, 183));
         jLabelResultatFinal.setFont(new java.awt.Font("Pristina", 1, 24)); // NOI18N
         jLabelResultatFinal.setForeground(new java.awt.Color(1, 22, 56));
         jLabelResultatFinal.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelResultatFinal.setText("Matricule :");
+        jLabelResultatFinal.setAutoscrolls(true);
         jLabelResultatFinal.setName("jLabelResultatFinal"); // NOI18N
+        jLabelResultatFinal.setOpaque(true);
+        jScrollPane10.setViewportView(jLabelResultatFinal);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addComponent(jLabelResultatFinal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jScrollPane10, javax.swing.GroupLayout.Alignment.TRAILING)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabelResultatFinal, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
+            .addComponent(jScrollPane10, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         jScrollPane1.setAutoscrolls(true);
@@ -435,9 +445,10 @@ public class Principal extends javax.swing.JFrame {
         // TODO add your handling code here:
         //logique.reset(jLabelCorrigerBruit.isEnabled());
 
-
-            logique.loadPlate(jLabelSelectedImage);
-            jLabelCorrigerBruit.setEnabled(true);
+        // load plate est une methode dans logique qui sert a lire la plaque
+            logique.loadPlate(jLabelSelectedImage); // lecture de l image est juste
+            jLabelCorrigerBruit.setEnabled(true);// activer le click sur la prochaine 
+                                                 //  etape qui consiste a corriger le bruit dans l image
 
     }//GEN-LAST:event_jLabelAjouterImageMouseClicked
 
@@ -451,7 +462,7 @@ public class Principal extends javax.swing.JFrame {
     private void jLabelTransformeEnLigneMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelTransformeEnLigneMouseClicked
 
         segmentation.toB_A_W(jLabelBlackAndWhiteImage); // pour le ocr lecture
-        logique.toB_W(jLabelBlackAndWhiteImage);// pour la segmentation
+        logique.toB_W(jLabelBlackAndWhiteImage);// pour la delimitation
         logique.findLines(jLabelLinearImage);
 
         jLabelDetecterLaPlaque.setEnabled(true);
@@ -467,6 +478,8 @@ public class Principal extends javax.swing.JFrame {
             //segmentation.setboundingBoxes(jLabelBoundingBoxes);
             logique.findContours(jLabelBoundingBoxes);
             jLabelOcrLecture.setEnabled(true);
+            
+            //segmentation.detecteCharactersContour(null);
         } catch (Exception e) {
             System.out.println("error: " + e.getMessage());
         }
@@ -503,6 +516,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane10;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;

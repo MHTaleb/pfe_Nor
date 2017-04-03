@@ -13,9 +13,9 @@ public class DesignImpl implements Design{
 
     @Override
     public void doDesign(JFrame frame) {
-        frame.setLocationRelativeTo(null);
-        frame.setExtendedState(Frame.MAXIMIZED_BOTH);
-        frame.setUndecorated(true);
+        frame.setLocationRelativeTo(null); // pour centrer l application
+        frame.setExtendedState(Frame.MAXIMIZED_BOTH);//pour maximiser l application
+        frame.setUndecorated(true);// pour enlever la bare des taches
         //frame.setVisible(true);
         
     }

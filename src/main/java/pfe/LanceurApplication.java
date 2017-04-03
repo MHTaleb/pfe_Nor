@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.talcorp.pfe;
+package pfe;
 
 import fenetres.DesignImpl;
 import fenetres.Principal;
@@ -38,7 +38,7 @@ public class LanceurApplication {
         EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new Principal(new DesignImpl()).setVisible(true);
+                new Principal(new DesignImpl()).setVisible(true); // lancer la fenetre principal apré decoration
             }
         });
         

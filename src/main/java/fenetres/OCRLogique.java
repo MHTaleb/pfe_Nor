@@ -6,7 +6,9 @@
 package fenetres;
 
 
-import com.talcorp.pfe.Logique;
+import pfe.imagePath;
+import pfe.Logique;
+import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.io.File;
 import java.util.ArrayList;
@@ -45,19 +47,29 @@ class OCRLogique extends imagePath {
             String doOCR = "";
             String found_Numbers = "";
             
+            doOCR = instance.doOCR(new File(ocrReadFrom));
+                        System.out.println("doOcr : " + doOCR);
+            
             if (rectangles != null) {
                 if (rectangles.size() > 0) {
                     for (Rectangle rectangle : rectangles) {
 
-                        for (String image : new String[]{ocrReadFrom,blackAndWhite,dilation,imagelines,sobelImage}) {
+                        for (String image : new String[]{ocrReadFrom,original}) {
+                         
                             
+//                            rectangle.height=rectangle.height-10;
+//                            rectangle.width=rectangle.width-10;
+//                            rectangle.x=rectangle.x+10;
+//                            rectangle.y=rectangle.y+10;
                         doOCR = instance.doOCR(new File(image), rectangle);
-                        //System.out.println("doOcr : " + doOCR);
+                        System.out.println("doOcr : " + doOCR);
                         doOCR = doOCR.replaceAll(" ", "");
                      
                         
                         if (!doOCR.trim().isEmpty()) {
-                            if (doOCR.trim().length() > 7) {
+                            if (doOCR.trim().length() > 7)
+                            if (doOCR.trim().length() <= 13)
+                            {
                                 found_Numbers += " " + doOCR + " AND ";
                             }
                         }
