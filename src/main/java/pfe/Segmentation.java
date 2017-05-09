@@ -26,14 +26,9 @@ public class Segmentation extends imagePath implements InfSegmentation {
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
     }
 
-    /**
-     * la dilatation et l erosion nous permette de reparer les forme
-     * triangulaire afin de facilité leur detection ainsi elle permet de bien
-     * remplir les texts pour qu il sois facilement detectable par les Ocrs
-     */
     @Override
-    public void dilate_erose(JLabel jLabelErosion, JLabel jLabelDilated) {
-        // pour le ocr
+    public void dilate_erose_ocr(){
+                // pour le ocr
         Mat rgbImage = Imgcodecs.imread(ocrReadFrom);
         Mat destination2 = new Mat(rgbImage.rows(), rgbImage.cols(), rgbImage.type());
         // l objectif et de corriger les erreur de la transformation en noire et blan
@@ -44,6 +39,16 @@ public class Segmentation extends imagePath implements InfSegmentation {
         // on dilate l image
         Imgproc.dilate(rgbImage, destination2, element11);
         Imgcodecs.imwrite(ocrReadFrom, destination2);
+
+    }
+    
+    /**
+     * la dilatation et l erosion nous permette de reparer les forme
+     * triangulaire afin de facilité leur detection ainsi elle permet de bien
+     * remplir les texts pour qu il sois facilement detectable par les Ocrs
+     */
+    @Override
+    public void dilate_erose(JLabel jLabelErosion, JLabel jLabelDilated) {
 
         // lecture de l image a traiter  Pour la segmentation
         Mat source = Imgcodecs.imread(blackAndWhite, Imgcodecs.CV_LOAD_IMAGE_COLOR);

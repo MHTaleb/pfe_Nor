@@ -51,7 +51,7 @@ public interface InfLogique {
     void loadPlate(JLabel jLabelSelectedImage);
 
     void smoothAndBlur(JLabel jLabelSmouthedImage);
-
+    void toB_W_OCR(JLabel jLabelBlackAndWhiteImage);
     void toB_W(JLabel jLabelBlackAndWhiteImage);
     void quitter();
     

@@ -5,6 +5,7 @@
  */
 package pfe;
 
+import fenetres.AcceuilBinome;
 import fenetres.DesignImpl;
 import fenetres.Principal;
 import java.awt.EventQueue;
@@ -18,8 +19,9 @@ import javax.swing.UnsupportedLookAndFeelException;
  * @author Taleb
  */
 public class LanceurApplication {
+
     public static void main(String[] args) {
-        
+
         // ici pour specifier que l application prendra le designe du systeme d exploitation
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -38,9 +40,10 @@ public class LanceurApplication {
         EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new Principal(new DesignImpl()).setVisible(true); // lancer la fenetre principal apré decoration
+                new AcceuilBinome().setVisible(true);
+                //new Principal(new DesignImpl()).setVisible(true); // lancer la fenetre principal apré decoration
             }
         });
-        
+
     }
 }

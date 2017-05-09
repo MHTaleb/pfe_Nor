@@ -473,7 +473,7 @@ public class Principal extends javax.swing.JFrame {
     private void jLabelDetecterLaPlaqueMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelDetecterLaPlaqueMouseClicked
         try {
 
-            segmentation.dilate_erose(jLabelErosion, jLabelDilated);
+                segmentation.dilate_erose(jLabelErosion, jLabelDilated);
             segmentation.applySobelFactor(jLabelSobelFactor);
             //segmentation.setboundingBoxes(jLabelBoundingBoxes);
             logique.findContours(jLabelBoundingBoxes);

@@ -50,4 +50,41 @@ public class imagePath {
         return smoothed;
     }
 
+    public String getBlackAndWhiteContour() {
+        return blackAndWhiteContour;
+    }
+
+    public String getDilationContour() {
+        return dilationContour;
+    }
+
+    public String getErosionContour() {
+        return erosionContour;
+    }
+
+    public String getImagelinesContour() {
+        return imagelinesContour;
+    }
+
+    public String getOcrReadFrom() {
+        return ocrReadFrom;
+    }
+
+    public String getOriginal() {
+        return original;
+    }
+
+    public String getSmoothedContour() {
+        return smoothedContour;
+    }
+
+    public String getSobelImage() {
+        return sobelImage;
+    }
+
+    public String getSobelImageContour() {
+        return sobelImageContour;
+    }
+
+    
 }

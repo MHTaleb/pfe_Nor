@@ -21,7 +21,7 @@ public interface InfSegmentation {
      * remplir les texts pour qu il sois facilement detectable par les Ocrs
      */
     void dilate_erose(JLabel jLabelErosion, JLabel jLabelDilated);
-
+void dilate_erose_ocr();
     void toB_A_W(JLabel jLabel);
     
     void detecteCharactersContour(JLabel jLabel);

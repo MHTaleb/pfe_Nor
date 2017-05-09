@@ -188,9 +188,8 @@ public class Logique extends imagePath implements InfLogique {
     }
 
     @Override
-    public void toB_W(JLabel jLabelBlackAndWhiteImage) {
-        // cella est l image de l ocr
-        smouthedImage = opencv_imgcodecs.cvLoadImage(ocrReadFrom);
+    public void toB_W_OCR(JLabel jLabelBlackAndWhiteImage){
+             smouthedImage = opencv_imgcodecs.cvLoadImage(ocrReadFrom);
          blackAndWhiteImageOCR = opencv_core.IplImage.create(smouthedImage.width(),
                 smouthedImage.height(), IPL_DEPTH_8U, 1);
          // la fonction qui va executé la transformation en noire et blan
@@ -204,8 +203,14 @@ public class Logique extends imagePath implements InfLogique {
         System.out.println("3");
          opencv_imgproc.cvSmooth(blackAndWhiteImageOCR, blackAndWhiteImageOCR);
         // fin de la transformation 
-        cvSaveImage(ocrReadFrom, blackAndWhiteImageOCR);
-        
+        cvSaveImage("final_"+ocrReadFrom, blackAndWhiteImageOCR);
+        jLabelBlackAndWhiteImage.setIcon(new ImageIcon("final_"+ocrReadFrom));
+    }
+    
+    @Override
+    public void toB_W(JLabel jLabelBlackAndWhiteImage) {
+        // cella est l image de l ocr
+   
         //JOptionPane.showConfirmDialog(null, "");
         //-------------------------------------------------------------------------
         //cella est l image des contours
@@ -218,10 +223,11 @@ public class Logique extends imagePath implements InfLogique {
                 smouthedImage.height(), IPL_DEPTH_8U, 1);
          // la fonction qui va executé la transformation en noire et blan
         cvCvtColor(smouthedImage, blackAndWhiteImage, CV_BGR2GRAY);
+        cvSaveImage("grey_"+blackAndWhite, blackAndWhiteImage);
+        jLabelBlackAndWhiteImage.setIcon(new ImageIcon("grey_"+blackAndWhite));
         cvAdaptiveThreshold(blackAndWhiteImage, blackAndWhiteImage, 255, CV_ADAPTIVE_THRESH_GAUSSIAN_C, CV_THRESH_BINARY_INV, 5, 5);
         // fin de la transformation 
         cvSaveImage(blackAndWhite, blackAndWhiteImage);
-        jLabelBlackAndWhiteImage.setIcon(new ImageIcon(blackAndWhite));
     }
 
     @Override

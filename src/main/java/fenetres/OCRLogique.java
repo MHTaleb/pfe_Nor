@@ -8,7 +8,6 @@ package fenetres;
 
 import pfe.imagePath;
 import pfe.Logique;
-import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.io.File;
 import java.util.ArrayList;
