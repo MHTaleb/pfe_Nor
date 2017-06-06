@@ -19,7 +19,7 @@ import static org.opencv.imgproc.Imgproc.cvtColor;
  *
  * @author Taleb
  */
-public class Segmentation extends imagePath implements InfSegmentation {
+public class Segmentation extends imagePath implements InfSegmentation, SegmentINFDetected {
 
     public Segmentation() {
         // on va charger la librairie de opencv qui est une dll dans ce que je vous ai demander de telecharger j expliquerai cela dans l annex en bas

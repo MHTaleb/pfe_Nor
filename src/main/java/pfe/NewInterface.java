@@ -6,12 +6,13 @@
 package pfe;
 
 import javax.swing.JLabel;
+import org.bytedeco.javacpp.opencv_core;
 
 /**
  *
  * @author Taleb
  */
-public interface InfLogique {
+public interface NewInterface {
 
     void findContours(JLabel jLabel);
 
@@ -29,9 +30,14 @@ public interface InfLogique {
      *
      * cvCanny a besoin l image original , la destination , la ratio d entré , puis au min 3*la ration d entré , taille de la matrice qui est 3
      * vu par la documentation
-     * @param jLabel
      */
     void findLines(JLabel jLabel);
+
+    opencv_core.IplImage getBlackAndWhiteImage();
+
+    opencv_core.IplImage getOriginalImage();
+
+    opencv_core.IplImage getSmouthedImage();
 
     /**
      * permet de selectionner une image depuis votre ordinateur puis la charger grace a la
@@ -48,13 +54,13 @@ public interface InfLogique {
      *
      * une fois tout cela reussis on va afficher l image selectionner dans le label etant une icone
      * pour cela on se sert de ImageIcon qui est dedier a ce propos
-     * @param jLabelSelectedImage
      */
     void loadPlate(JLabel jLabelSelectedImage);
 
     void smoothAndBlur(JLabel jLabelSmouthedImage);
-    void toB_W_OCR(JLabel jLabelBlackAndWhiteImage);
+
     void toB_W(JLabel jLabelBlackAndWhiteImage);
-    void quitter();
+
+    void toB_W_OCR(JLabel jLabelBlackAndWhiteImage);
     
 }

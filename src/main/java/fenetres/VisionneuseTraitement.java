@@ -43,8 +43,8 @@ public class VisionneuseTraitement extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(239, 35, 60));
-        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(179, 40, 45), 5));
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(43, 45, 66), 5));
 
         jLabel1.setFont(new java.awt.Font("BankGothic Md BT", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(43, 45, 66));
@@ -62,9 +62,10 @@ public class VisionneuseTraitement extends javax.swing.JFrame {
             .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 57, Short.MAX_VALUE)
         );
 
-        jPanel2.setBackground(new java.awt.Color(237, 242, 244));
-        jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(179, 40, 45), 5));
+        jPanel2.setBackground(new java.awt.Color(204, 204, 255));
+        jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(43, 45, 66), 5));
 
+        jLabelImageDebut.setBackground(new java.awt.Color(204, 204, 255));
         jLabelImageDebut.setFont(new java.awt.Font("BankGothic Md BT", 1, 24)); // NOI18N
         jLabelImageDebut.setForeground(new java.awt.Color(43, 45, 66));
         jLabelImageDebut.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -74,9 +75,13 @@ public class VisionneuseTraitement extends javax.swing.JFrame {
         jLabelImageDebut.setAutoscrolls(true);
         jLabelImageDebut.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jLabelImageDebut.setIconTextGap(10);
+        jLabelImageDebut.setOpaque(true);
         jLabelImageDebut.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jScrollPane1.setViewportView(jLabelImageDebut);
 
+        jScrollPane2.setBackground(new java.awt.Color(204, 204, 255));
+
+        jLabelImageResultat.setBackground(new java.awt.Color(204, 204, 255));
         jLabelImageResultat.setFont(new java.awt.Font("BankGothic Md BT", 1, 24)); // NOI18N
         jLabelImageResultat.setForeground(new java.awt.Color(43, 45, 66));
         jLabelImageResultat.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -86,6 +91,7 @@ public class VisionneuseTraitement extends javax.swing.JFrame {
         jLabelImageResultat.setAutoscrolls(true);
         jLabelImageResultat.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jLabelImageResultat.setIconTextGap(10);
+        jLabelImageResultat.setOpaque(true);
         jLabelImageResultat.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jScrollPane2.setViewportView(jLabelImageResultat);
 
@@ -136,37 +142,7 @@ public class VisionneuseTraitement extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(VisionneuseTraitement.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(VisionneuseTraitement.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(VisionneuseTraitement.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(VisionneuseTraitement.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new VisionneuseTraitement().setVisible(true);
-            }
-        });
-    }
+   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;

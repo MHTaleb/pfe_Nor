@@ -50,7 +50,7 @@ import static org.opencv.imgproc.Imgproc.blur;
  *
  * @author Taleb
  */
-public class Logique extends imagePath implements InfLogique {
+public class Logique extends imagePath implements InfLogique, NewInterface {
 
    
     // l'image original dans une variable de type IntelProcessingImage
@@ -71,14 +71,17 @@ public class Logique extends imagePath implements InfLogique {
      System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
     }
 
+    @Override
     public opencv_core.IplImage getBlackAndWhiteImage() {
         return blackAndWhiteImage;
     }
 
+    @Override
     public opencv_core.IplImage getOriginalImage() {
         return originalImage;
     }
 
+    @Override
     public opencv_core.IplImage getSmouthedImage() {
         return smouthedImage;
     }

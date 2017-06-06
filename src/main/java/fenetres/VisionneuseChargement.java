@@ -46,9 +46,10 @@ public class VisionneuseChargement extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(239, 35, 60));
-        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(179, 40, 45), 5));
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(43, 45, 66), 5));
 
+        jLabel1.setBackground(new java.awt.Color(255, 255, 255));
         jLabel1.setFont(new java.awt.Font("BankGothic Md BT", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(43, 45, 66));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -65,9 +66,12 @@ public class VisionneuseChargement extends javax.swing.JFrame {
             .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 57, Short.MAX_VALUE)
         );
 
-        jPanel2.setBackground(new java.awt.Color(237, 242, 244));
-        jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(179, 40, 45), 5));
+        jPanel2.setBackground(new java.awt.Color(204, 204, 255));
+        jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(43, 45, 66), 5));
 
+        jScrollPane1.setBackground(new java.awt.Color(204, 204, 255));
+
+        jLabelImage.setBackground(new java.awt.Color(204, 204, 255));
         jLabelImage.setFont(new java.awt.Font("BankGothic Md BT", 1, 24)); // NOI18N
         jLabelImage.setForeground(new java.awt.Color(43, 45, 66));
         jLabelImage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -77,6 +81,7 @@ public class VisionneuseChargement extends javax.swing.JFrame {
         jLabelImage.setAutoscrolls(true);
         jLabelImage.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jLabelImage.setIconTextGap(10);
+        jLabelImage.setOpaque(true);
         jLabelImage.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jScrollPane1.setViewportView(jLabelImage);
 

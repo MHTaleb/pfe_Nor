@@ -19,6 +19,8 @@ public interface InfSegmentation {
      * la dilatation et l erosion nous permette de reparer les forme
      * triangulaire afin de facilité leur detection ainsi elle permet de bien
      * remplir les texts pour qu il sois facilement detectable par les Ocrs
+     * @param jLabelErosion
+     * @param jLabelDilated
      */
     void dilate_erose(JLabel jLabelErosion, JLabel jLabelDilated);
 void dilate_erose_ocr();
