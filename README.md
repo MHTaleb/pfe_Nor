@@ -1,9 +1,9 @@
-# pfe_Nor
+# https://github.com/MHTaleb/plate-Recognizer-MH
 
 bonjour
 
 pour mettre le projet dans netbeans il faut
-copier le liens suivant : https://github.com/MHTaleb/pfe_Nor.git
+copier le liens suivant : https://github.com/MHTaleb/plate-Recognizer-MH.git
 
 vous devez allez dans netbeans à :
 Team ----> Git ----> Clonne
